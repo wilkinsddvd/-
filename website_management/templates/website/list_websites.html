@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website List</title>
+  <style>
+    body {
+      background: url('https://cdn.pixabay.com/photo/2018/08/14/13/23/ocean-3605547_1280.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    #list_box {
+      width: 90%;
+      max-width: 600px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 10px;
+      padding: 40px;
+      text-align: center;
+      color: #fff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    h1 {
+      color: #ffffff90;
+      margin-bottom: 20px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      text-align: left;
+    }
+
+    li {
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .description {
+      flex: 1;
+      margin-right: 10px;
+    }
+
+    .url {
+      flex: 2;
+      color: #30cfd0;
+      text-decoration: none;
+    }
+
+    .url:hover {
+      text-decoration: underline;
+    }
+
+    button {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .edit-button {
+      background-image: linear-gradient(to right, #4d94ff, #003366);
+    }
+
+    .edit-button:hover {
+      opacity: 0.9;
+      background-image: linear-gradient(to right, #3a8cd1, #00264d);
+    }
+
+    .delete-button {
+      background-image: linear-gradient(to right, #ff4d4d, #a71d2a);
+    }
+
+    .delete-button:hover {
+      opacity: 0.9;
+      background-image: linear-gradient(to right, #e03434, #9f1d1d);
+    }
+
+    #add_button, #return_button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      background-image: linear-gradient(to right, #30cfd0, #330867);
+      margin-top: 20px;
+      text-align: center;
+      display: inline-block;
+    }
+
+    #add_button:hover, #return_button:hover {
+      opacity: 0.9;
+    }
+
+    .error_msg {
+      color: #ff4d4d;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div id="list_box">
+    <h1>Website List</h1>
+    <ul>
+      {% for website in websites %}
+        <li>
+          <div class="description">{{ website.description }}</div>
+          <a href="{{ website.url }}" class="url">{{ website.url }}</a>
+          <form method="POST" action="{% url 'website:edit' website.web_id %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="edit-button" title="编辑网站">Edit</button>
+          </form>
+          <form method="POST" action="{% url 'website:delete' website.web_id %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="delete-button" title="确认删除">Delete</button>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+    <a href="{% url 'website:add' %}" id="add_button">Add new website</a>
+    <a href="/user/index" id="return_button">返回用户界面</a>
+  </div>
+</body>
+</html>
+
